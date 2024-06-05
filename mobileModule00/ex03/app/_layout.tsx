@@ -5,6 +5,8 @@ export default function RootLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
+        statusBarStyle: "light",
+        statusBarTranslucent: true,
       }}
     ></Stack>
   );
