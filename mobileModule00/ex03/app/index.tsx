@@ -102,20 +102,20 @@ export default function Index() {
   }, []);
 
   useEffect(() => {
-    console.clear();
-    console.log({ expression, result });
-    if (expression.length > 0) {
-      try {
-        const newExpression = expression.replace(/[-+*\/.]$/g, "");
-        const result = evaluate(newExpression);
-        if (result === Infinity || result === -Infinity) {
-          setResult("Can't divide by zero");
-        } else {
-          setResult(result + "");
-        }
-      } catch (error) {
-        setResult("Error");
+    try {
+      const newExpression = expression.replace(/[-+*\/.]$/g, "");
+      if (newExpression.length === 0) {
+        setResult("");
+        return;
       }
+      const result = evaluate(newExpression);
+      if (result === Infinity || result === -Infinity) {
+        setResult("Error");
+      } else {
+        setResult(result + "");
+      }
+    } catch (error) {
+      setResult("Error");
     }
   }, [expression]);
 
@@ -207,10 +207,7 @@ export default function Index() {
                 } else if (item.type === "clear-all") {
                   setExpression("");
                   setResult("");
-                } else if (
-                  item.type === "equal" &&
-                  result !== "Can't divide by zero"
-                ) {
+                } else if (item.type === "equal" && result !== "Error") {
                   setExpression(result);
                 } else if (item.type === "point") {
                   if (
