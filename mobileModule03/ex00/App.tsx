@@ -33,11 +33,10 @@ export default function App() {
       }}
     >
       <ImageBackground
-        source={require("./assets/bg.webp")}
+        source={require("./assets/bg-01.webp")}
         style={{
           flex: 1,
           width: "100%",
-          // height:
           minHeight: height,
         }}
         resizeMethod="scale"
@@ -46,7 +45,7 @@ export default function App() {
           style={{
             flex: 1,
             position: "relative",
-            backgroundColor: "rgba(0, 0, 0, 0.925)",
+            backgroundColor: "rgba(0, 0, 0, 0.85)",
           }}
         >
           <Stack.Navigator>
