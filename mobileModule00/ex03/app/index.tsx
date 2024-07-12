@@ -84,12 +84,12 @@ const items: TItem[] = [
     type: "point",
   },
   {
-    label: "=",
-    type: "equal",
-  },
-  {
     label: "00",
     type: "number",
+  },
+  {
+    label: "=",
+    type: "equal",
   },
 ];
 
@@ -158,42 +158,45 @@ export default function Index() {
           backgroundColor: "#0000000f",
         }}
       >
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={{
-            padding: 10,
-            backgroundColor: "#0000000f",
-            height: 10,
-            borderWidth: 1,
-            borderColor: "#ffffff",
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 32,
-              textAlign: "right",
-              padding: 8,
-              color: "#e2e8f0",
-            }}
+        <View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{ padding: 10 }}
           >
-            {expression}
-          </Text>
-        </ScrollView>
-        <Text
-          style={{
-            fontSize: 32,
-            textAlign: "right",
-            color: "#e5e7eb",
-            opacity: 0.5,
-          }}
-        >
-          {result}
-        </Text>
+            <Text
+              style={{
+                marginLeft: "auto",
+                fontSize: 32,
+                textAlign: "right",
+                color: "#e2e8f0",
+              }}
+            >
+              {expression}
+            </Text>
+          </ScrollView>
+        </View>
+        <View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{ padding: 10 }}
+          >
+            <Text
+              style={{
+                fontSize: 32,
+                textAlign: "right",
+                color: "#e5e7eb",
+                opacity: 0.5,
+              }}
+            >
+              {result}
+            </Text>
+          </ScrollView>
+        </View>
       </View>
       <View
         style={{
-          // flex: 1,
           flexDirection: "row",
           flexWrap: "wrap",
           gap,
@@ -207,6 +210,7 @@ export default function Index() {
               style={{
                 paddingVertical: orientation === "landscape" ? gap : 18,
                 width: width / 5 - gap * 1.6,
+                flexGrow: item.label === "=" ? 1 : undefined,
                 backgroundColor: "#0f172a",
                 borderRadius: 999,
                 justifyContent: "center",
