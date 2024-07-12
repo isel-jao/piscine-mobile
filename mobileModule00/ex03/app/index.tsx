@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { Text, View, TouchableOpacity, Dimensions } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Dimensions,
+  ScrollView,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { evaluate } from "mathjs";
 
@@ -81,6 +87,10 @@ const items: TItem[] = [
     label: "=",
     type: "equal",
   },
+  {
+    label: "00",
+    type: "number",
+  },
 ];
 
 const gap = 5;
@@ -148,16 +158,28 @@ export default function Index() {
           backgroundColor: "#0000000f",
         }}
       >
-        <Text
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
           style={{
-            fontSize: 32,
-            textAlign: "right",
-            padding: 8,
-            color: "#e2e8f0",
+            padding: 10,
+            backgroundColor: "#0000000f",
+            height: 10,
+            borderWidth: 1,
+            borderColor: "#ffffff",
           }}
         >
-          {expression}
-        </Text>
+          <Text
+            style={{
+              fontSize: 32,
+              textAlign: "right",
+              padding: 8,
+              color: "#e2e8f0",
+            }}
+          >
+            {expression}
+          </Text>
+        </ScrollView>
         <Text
           style={{
             fontSize: 32,
@@ -192,8 +214,14 @@ export default function Index() {
               }}
               key={item.label}
               onPress={() => {
-                if (expression.length > 25) return;
-                if (item.type === "number") {
+                if (item.type === "clear") {
+                  setExpression((prev) => prev.slice(0, -1));
+                } else if (item.type === "clear-all") {
+                  setExpression("");
+                  setResult("");
+                }
+                // if (expression.length > 25) return;
+                else if (item.type === "number") {
                   setExpression((prev) => prev + item.label);
                 } else if (item.type === "operator") {
                   const lastChar = expression.slice(-1);
@@ -202,20 +230,17 @@ export default function Index() {
                   } else {
                     setExpression((prev) => prev + item.label);
                   }
-                } else if (item.type === "clear") {
-                  setExpression((prev) => prev.slice(0, -1));
-                } else if (item.type === "clear-all") {
-                  setExpression("");
-                  setResult("");
                 } else if (item.type === "equal" && result !== "Error") {
                   setExpression(result);
                 } else if (item.type === "point") {
                   if (
                     expression.length === 0 ||
-                    "+-*/".includes(expression.slice(-1))
+                    "+-*/".includes(expression.slice(-1)) // if last char is operator or empty then add 0.
                   ) {
                     setExpression((prev) => prev + "0" + item.label);
-                  } else if (new RegExp(/^.*[-+/*]\d+$/g).test(expression)) {
+                  } else if (
+                    new RegExp(/(^.*[-+/*]\d+$|^\d*$)/g).test(expression)
+                  ) {
                     setExpression((prev) => prev + item.label);
                   }
                 }
