@@ -1,13 +1,13 @@
 import { View } from "react-native";
 import ThemedText from "../themed-text";
 import { useOrientation } from "../hooks/use-orientation";
-import { useStore } from "../../utils/store";
+import { useGlobalStore } from "../../utils/store";
 import useSWR from "swr";
 import { getLocations } from "../../utils/api";
 
 export function LocationData() {
   const orientation = useOrientation();
-  const { coordinates } = useStore();
+  const { coordinates } = useGlobalStore();
   const key = `current-location/${JSON.stringify({ coordinates })}`;
 
   const { data, isLoading, error } = useSWR(

@@ -3,7 +3,7 @@ import { useOrientation } from "../hooks/use-orientation";
 import ThemedText from "../themed-text";
 import { LocationData } from "../location-data";
 import useSWR from "swr";
-import { useStore } from "../../utils/store";
+import { useGlobalStore } from "../../utils/store";
 import { getCurrentWeather } from "../../utils/api";
 import {
   getWeatherDescription,
@@ -15,7 +15,7 @@ import { colors } from "../../utils/constants";
 
 export function CurrentlyScreen() {
   const orientation = useOrientation();
-  const { coordinates } = useStore();
+  const { coordinates } = useGlobalStore();
 
   const { data, isLoading, error } = useSWR(
     `currently/${JSON.stringify({ coordinates })}`,

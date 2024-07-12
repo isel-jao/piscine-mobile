@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useDebounce } from "../hooks/use-debounce";
-import { useStore } from "../../utils/store";
+import { useGlobalStore } from "../../utils/store";
 import { useCallback } from "react";
 import { FlatList, TouchableOpacity, Keyboard } from "react-native";
 import { colors, headerHeight } from "../../utils/constants";
@@ -11,7 +11,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 export function SearchList() {
   const { search, setSearch, setIsSearching, setCoordinates, setLocation } =
-    useStore();
+    useGlobalStore();
   const debouncedSearch = useDebounce(search, 500);
 
   const { data, isLoading, error } = useSWR(
@@ -74,7 +74,6 @@ export function SearchList() {
           return (
             <TouchableOpacity
               onPress={() => {
-                console.log("item", item);
                 setSearch(item?.name);
                 setCoordinates({
                   latitude: item?.latitude,

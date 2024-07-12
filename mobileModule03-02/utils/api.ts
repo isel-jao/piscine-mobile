@@ -51,9 +51,15 @@ export const getTodayWeather = async (
 ) => {
   const today = new Date().toISOString().split("T")[0];
   if (!latitude || !longitude) return null;
-  const result = await axios.get(
-    `https://api.open-meteo.com/v1/forecast?latitude=40.7128&longitude=-74.0060&hourly=temperature_2m,weathercode,windspeed_10m&start=${today}T00:00:00Z&end=${today}T23:59:59`
-  );
+  const result = await axios.get("https://api.open-meteo.com/v1/forecast", {
+    params: {
+      latitude,
+      longitude,
+      hourly: "temperature_2m,weathercode,windspeed_10m",
+      start: `${today}T00:00:00Z`,
+      end: `${today}T23:59:59Z`,
+    },
+  });
   return result?.data;
 };
 
@@ -62,8 +68,12 @@ export const getWeeklyWeather = async (
   longitude?: number
 ) => {
   if (!latitude || !longitude) return null;
-  const result = await axios.get(
-    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_sum`
-  );
+  const result = await axios.get("https://api.open-meteo.com/v1/forecast", {
+    params: {
+      latitude,
+      longitude,
+      daily: "temperature_2m_max,temperature_2m_min,weathercode",
+    },
+  });
   return result?.data;
 };

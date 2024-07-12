@@ -26,12 +26,14 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.74.3",
+    "react-native-chart-kit": "^6.12.0",
     "react-native-web": "~0.19.10",
     "swr": "^2.2.5",
     "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@types/color": "^3.0.6",
     "@types/react": "~18.2.45",
     "typescript": "^5.1.3"
   },

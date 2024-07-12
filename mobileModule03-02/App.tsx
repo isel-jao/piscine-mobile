@@ -4,14 +4,14 @@ import { colors } from "./utils/constants";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Tabs } from "./components/tabs";
 import { Header } from "./components/header";
-import { useStore } from "./utils/store";
+import { useGlobalStore } from "./utils/store";
 import { SearchList } from "./components/search-list";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   const { height } = useWindowDimensions();
-  const { isSearching } = useStore();
+  const { isSearching } = useGlobalStore();
   return (
     <NavigationContainer
       theme={{

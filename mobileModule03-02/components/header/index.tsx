@@ -3,7 +3,7 @@ import { colors, headerHeight } from "../../utils/constants";
 import ThemedText from "../themed-text";
 import { StatusBar } from "expo-status-bar";
 import { Keyboard, TextInput, TouchableOpacity, View } from "react-native";
-import { useStore } from "../../utils/store";
+import { useGlobalStore } from "../../utils/store";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import * as Location from "expo-location";
 
@@ -16,9 +16,7 @@ export function Header() {
     setLocation,
     coordinates,
     setCoordinates,
-    error,
-    setError,
-  } = useStore();
+  } = useGlobalStore();
   return (
     <BlurView
       experimentalBlurMethod="dimezisBlurView"
@@ -70,7 +68,6 @@ export function Header() {
               if (status !== "granted") {
                 setLocation(null);
                 setCoordinates(null);
-                setError("Permission to access location was denied");
                 return;
               }
               const { coords } = await Location.getCurrentPositionAsync({});
@@ -79,11 +76,7 @@ export function Header() {
               setSearch("");
               setIsSearching(false);
               Keyboard.dismiss();
-            } catch (error) {
-              setError(
-                "Geolocation is not available, please it in your App settings"
-              );
-            }
+            } catch (error) {}
           }}
         >
           <FontAwesome5

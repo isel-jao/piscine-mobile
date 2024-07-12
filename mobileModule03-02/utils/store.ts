@@ -7,7 +7,7 @@ type TState = {
     latitude: number;
     longitude: number;
   } | null;
-  error: string;
+  // error: string;
   location: {
     city: string;
     region: string;
@@ -19,7 +19,7 @@ const defaultState: TState = {
   search: "",
   isSearching: false,
   coordinates: null,
-  error: "",
+  // error: "",
   location: null,
 };
 
@@ -27,15 +27,15 @@ type TActions = {
   setSearch: (search: string) => void;
   setIsSearching: (isSearching: boolean) => void;
   setCoordinates: (coordinates: TState["coordinates"]) => void;
-  setError: (error: string) => void;
+  // setError: (error: string) => void;
   setLocation: (location: TState["location"]) => void;
 };
 
-export const useStore = create<TState & TActions>((set) => ({
+export const useGlobalStore = create<TState & TActions>((set) => ({
   ...defaultState,
-  setSearch: (search) => set({ search, error: "" }),
-  setIsSearching: (isSearching) => set({ isSearching, error: "" }),
-  setCoordinates: (coordinates) => set({ coordinates }),
-  setError: (error) => set({ error }),
+  setSearch: (search) => set({ search }),
+  setIsSearching: (isSearching) => set({ isSearching }),
+  setCoordinates: (coordinates) => set({ coordinates, location: null }),
+  // setError: (error) => set({ error }),
   setLocation: (location) => set({ location }),
 }));
