@@ -15,6 +15,88 @@ import { useState } from "react";
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
+const colors = {
+  primary: "#4f46e5",
+  background: "#f4f4f5",
+};
+
+type TState = {
+  search: string;
+};
+
+type TActions = {
+  setSearch: (search: string) => void;
+};
+
+export const useStore = create<TState & TActions>((set) => ({
+  search: "",
+  setSearch: (search) => set({ search }),
+}));
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          options={{
+            header: Header,
+          }}
+          component={Tabs}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+function Header() {
+  const { search, setSearch } = useStore();
+
+  return (
+    <View
+      style={{
+        paddingTop: 50,
+        padding: 12,
+        backgroundColor: "white",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 12,
+      }}
+    >
+      <TextInput
+        value={search}
+        onChangeText={setSearch}
+        style={{
+          padding: 8,
+          backgroundColor: colors.background,
+          borderRadius: 8,
+
+          flex: 1,
+        }}
+        placeholder="Search for location..."
+      />
+      <TouchableOpacity
+        style={{
+          borderWidth: 1,
+          width: 40,
+          aspectRatio: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 8,
+          borderColor: colors.primary,
+        }}
+        activeOpacity={0.5}
+        onPress={() => {
+          setSearch("Geolocation");
+        }}
+      >
+        <FontAwesome5 name="search-location" size={20} color={colors.primary} />
+      </TouchableOpacity>
+    </View>
+  );
+}
+
 function Tabs() {
   return (
     <Tab.Navigator
@@ -62,70 +144,6 @@ function Tabs() {
   );
 }
 
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          options={{
-            header: Header,
-          }}
-          component={Tabs}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
-
-function Header() {
-  const { search, setSearch } = useStore();
-  const [value, setValue] = useState(search);
-  return (
-    <View
-      style={{
-        paddingTop: 50,
-        padding: 12,
-        backgroundColor: "white",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 12,
-      }}
-    >
-      <TextInput
-        value={value}
-        onChangeText={setValue}
-        style={{
-          padding: 8,
-          backgroundColor: colors.background,
-          borderRadius: 8,
-
-          flex: 1,
-        }}
-        placeholder="Search for location..."
-      />
-      <TouchableOpacity
-        style={{
-          borderWidth: 1,
-          width: 40,
-          aspectRatio: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          borderRadius: 8,
-          borderColor: colors.primary,
-        }}
-        activeOpacity={0.5}
-        onPress={() => {
-          setSearch(value);
-        }}
-      >
-        <FontAwesome5 name="search-location" size={20} color={colors.primary} />
-      </TouchableOpacity>
-    </View>
-  );
-}
-
 function CurrentlyScreen() {
   const { search } = useStore();
   return (
@@ -161,21 +179,3 @@ function WeeklyScreen() {
     </View>
   );
 }
-
-const colors = {
-  primary: "#4f46e5",
-  background: "#f4f4f5",
-};
-
-type TState = {
-  search: string;
-};
-
-type TActions = {
-  setSearch: (search: string) => void;
-};
-
-export const useStore = create<TState & TActions>((set) => ({
-  search: "",
-  setSearch: (search) => set({ search }),
-}));
