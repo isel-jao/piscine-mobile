@@ -36,6 +36,9 @@ export const useGlobalStore = create<TState & TActions>((set) => ({
   setSearch: (search) => set({ search }),
   setIsSearching: (isSearching) => set({ isSearching }),
   setCoordinates: (coordinates) => set({ coordinates, location: null }),
-  setError: (error) => set({ error, coordinates: null }),
+  setError: (error) => {
+    if (error) set({ error, coordinates: null });
+    else set({ error });
+  },
   setLocation: (location) => set({ location }),
 }));
